@@ -1,10 +1,22 @@
-.Card{
+.Card {
   background-color: white;
   border: solid silver 2px;
   border-radius: 3px;
   height: 300px;
+  padding: 5px;
+  border: solid #d5e3ec 2px;
 
   display: flex;
+
+  &:hover {
+    border: solid 2px darken(#d5e3ec, 20%);
+  }
+
+  &.-only{
+    &:hover{
+      border: solid 2px #d5e3ec;
+    }
+  }
 
   & > * {
     flex-basis: 0; //taille de base équivalente au contenu
@@ -22,6 +34,8 @@
   }
 
   &_info{
+    text-decoration: none;
+    color: inherit;
     flex-grow: 2;
     padding: 5px;
 
