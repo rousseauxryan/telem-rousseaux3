@@ -5,36 +5,6 @@
 
 //scss
 
-/* ******* Couleur du thème *******  */
-$color-base: #005d80;
-
-
-/* ******* Brand *******  */
-$brand-bd-color: #FF8119;
-$brand-font-color: #fff;
-$brand-font-family: "Oxygen", sans-serif;
-
-/* ******* Header *******  */
-$header-bg-color: $color-base;
-
-/* ******* MainContent *******  */
-$mainContent-bg-color: #f7fafb;
-
-/* ******* MainMenu *******  */
-$mainMenu-bg-color: #d5e3ec;
-
-/* ******* Card *******  */
-$card-border-color: #d5e3ec;
-$card-border-color-hover: darken($card-border-color, 20%);
-
-/* ******* Footer *******  */
-$footer-bg-color: $color-base;
-
-
-
-
-
-
 
 
 /* ******* Padding *******  */
@@ -48,3 +18,52 @@ $margin-small: 2px;
 $margin-base: 5px;
 $margin-big: 10px;
 $margin-biggest: 15px;
+
+/* ******* Grid *******  */
+$grid-col1-width: 250px;
+$grid-col2-width: 1fr;
+
+/* ******* Couleur du thème *******  */
+$color-base: #005d80;
+$color-secondary: #d5e3ec;
+
+/* ******* radius *******  */
+$radius-base: 5px;
+
+
+
+
+
+
+
+
+/* ******* Brand *******  */
+$brand-bd-color: #FF8119;
+$brand-font-color: #fff;
+$brand-font-family: "Oxygen", sans-serif;
+
+/* ******* Search*******  */
+$search-input-bg-color: white;
+$search-input-border: solid 4px $color-secondary;
+$search-input-focus-border: solid 4px invert($color-base);
+$search-input-placeholder-font-color: #919191;
+
+$search-button-bg-color: $color-secondary;
+$search-button-bg-hover-color: darken($search-button-bg-color, 15px);
+
+/* ******* Header *******  */
+$header-bg-color: $color-base;
+$header-brand-width: $grid-col1-width - $padding-base;
+
+/* ******* MainContent *******  */
+$mainContent-bg-color: #f7fafb;
+
+/* ******* MainMenu *******  */
+$mainMenu-bg-color: #d5e3ec;
+
+/* ******* Card *******  */
+$card-border-color: #d5e3ec;
+$card-border-color-hover: darken($card-border-color, 20%);
+
+/* ******* Footer *******  */
+$footer-bg-color: $color-base;
