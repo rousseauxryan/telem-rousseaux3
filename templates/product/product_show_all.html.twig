@@ -2,12 +2,16 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-<h1>Hello World!</h1>
 
 
     {% for product in products %}
 
         {% if loop.first %}
+
+            {% if nb_of_results is defined %}
+                <p>{{ nb_of_results }} résultats </p>
+            {% endif %}
+
             <div class="CardCollection">
         {% endif %}
         {% include 'product/_product_card.html.twig' %}

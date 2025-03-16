@@ -33,7 +33,7 @@ class ProductRepository extends ServiceEntityRepository
 //**********************************************************
 
     //----------------------------------------------------------
-    //region *H2* Initialisation du QueryBuilder
+    //region **H2** Initialisation du QueryBuilder
     //----------------------------------------------------------
 
 
@@ -49,8 +49,24 @@ class ProductRepository extends ServiceEntityRepository
     }
 
 
+    /**
+     * Initialise le querybuilder avec la fonction COUNT sur la clé primaire
+     *
+     * @return void
+     */
+    private function initializeQueryBuilderWithCount():void{
+        $this->qb = $this->createQueryBuilder($this->alias)
+            ->select("COUNT($this->alias.id)");
+        // s'il fallait éviter les doublons:
+            //->select("COUNT(DISTINCT $this->alias.id)");
+    }
+
+
+
+
+
     //----------------------------------------------------------
-    //endregion *H2* Filtres
+    //endregion **H2** Filtres
     //----------------------------------------------------------
 
 
@@ -59,7 +75,7 @@ class ProductRepository extends ServiceEntityRepository
 
 
     //----------------------------------------------------------
-    //region *H3* Filtres
+    //region **H3** Filtres
     //----------------------------------------------------------
 
     /**
@@ -99,18 +115,45 @@ class ProductRepository extends ServiceEntityRepository
     }
 
 
+
     //----------------------------------------------------------
-    //endregion *H3*
+    //endregion **H3**
     //----------------------------------------------------------
 
-//**********************************************************
-//endregion *H1*
-//**********************************************************
 
+    //----------------------------------------------------------
+    //region **H4** queryBuilder mobilisant des filtres et/ou des jointures
+    //----------------------------------------------------------
+
+
+    /**
+     * COnstruit un queryBuilder qui recherche tous les items contenant la chaine passée en argument
+     *
+     * @param string $keyword
+     * @return void
+     */
+    private function searchQb(string $keyword):void{
+        $this->orPropertyLike('description', $keyword);
+        $this->orPropertyLike('name', $keyword);
+        $this->orPropertyLike('price', $keyword);
+    }
+
+
+    //----------------------------------------------------------
+    //endregion **H4* queryBuilder mobilisant des filtres et/ou des jointures
+    //----------------------------------------------------------
+
+
+
+//**********************************************************
+//region *H1* Méthodes qui retourne un jeu de résultat
+//**********************************************************
 
     public function search(string $keyword): array{
 
         $this->initializeQueryBuilder();
+
+        $this->searchQb($keyword);
 
         //on recherche dans le nom
         //$this->orNameLike($keyword);
@@ -119,13 +162,46 @@ class ProductRepository extends ServiceEntityRepository
         //$this->orDescriptionLike($keyword);
 
         //on recherche dans les propriétés
-        $this->orPropertyLike('name', $keyword);
+        /*$this->orPropertyLike('name', $keyword);
         $this->orPropertyLike('description', $keyword);
-        $this->orPropertyLike('price', $keyword);
-
+        $this->orPropertyLike('price', $keyword);*/
         return $this->qb->getQuery()->getResult();
 
     }
+
+
+    public function searchCount(string $keyword): int{
+
+        $this->initializeQueryBuilderWithCount();
+
+        $this->searchQb($keyword);
+
+        //on recherche dans le nom
+        //$this->orNameLike($keyword);
+
+        //on recherche dans la description
+        //$this->orDescriptionLike($keyword);
+
+        //on recherche dans les propriétés
+        /*$this->orPropertyLike('name', $keyword);
+        $this->orPropertyLike('description', $keyword);*/
+
+        return $this->qb->getQuery()->getSingleScalarResult(); //on récupere un et un seul résultat d'entier
+
+    }
+
+
+//**********************************************************
+//endregion *H1*
+//**********************************************************
+
+
+//**********************************************************
+//endregion *H1*
+//**********************************************************
+
+
+
 
 
 
