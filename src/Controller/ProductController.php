@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,6 +47,23 @@ class ProductController extends AbstractController
 
         return $this->render('product/product_show.html.twig', ['product'=>$product
         ]);
+    }
+
+
+    /**
+     * Recherche des produits à partir d'un mot clé
+     * @return Response
+     */
+
+    #[Route('/product/search', name:'product_search', methods: ['POST'])]
+    public function search(Request $request, ProductRepository $productRepository):Response{
+
+        $keywordSearched = $request->request->get('searchProduct');
+
+        $products = $productRepository->search($keywordSearched);
+
+        return $this->render('product/product_show_all.html.twig', ['products'=>$products]);
+
     }
 
 }
