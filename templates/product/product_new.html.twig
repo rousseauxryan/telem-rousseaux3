@@ -1,0 +1,14 @@
+{# templates/product/product_new.html.twig #}
+
+{# Rôle>
+    Sert le formulaire d'ajout d'un produit
+Rôle #}
+
+{% extends "base.html.twig" %}
+
+{% block body %}
+    {{ form(
+        form, {'attr': {novalidate:'novalidate'}}
+    )
+    }}
+{% endblock %}
