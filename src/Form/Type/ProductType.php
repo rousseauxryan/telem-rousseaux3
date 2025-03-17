@@ -25,17 +25,20 @@ class ProductType extends AbstractType
                 'label' => 'Description',
                 'required' => 'false'
             ])
-            ->add('quantity', IntegerType::class, [
+            ->add('quantityInStock', IntegerType::class, [
                 'label' => 'Quantité en stock',
                 'required' => 'false'
             ])
             ->add('price', TextType::class, [
                 'label' => 'Prix',
-            ])
+            /*])
             ->add('enregistrer', SubmitType::class, [
-                'label' => 'Enregistrer',
+                'label' => 'Enregistrer',*/
             ])
         ;
+
+
+
 
     }
 
