@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -23,12 +24,15 @@ class Product
      * @var string|null nom du produit
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Le nom du produit doit être indiqué.')]
+    #[Assert\Length(min: 5, max: 255, minMessage: 'Le nom du produit doit faire au moins {{ limit }} caractères.')]
     private ?string $name;
 
     /**
      * description du produit
      */
     #[ORM\Column(nullable:true, length:2000)]
+    #[Assert\Length(min: 1, max: 2000)]
     private ?string $description;
 
     /**
@@ -41,13 +45,17 @@ class Product
      * quantité en stock
      */
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank]
+    #[Assert\PositiveOrZero]
     private ?int $quantityInStock;
 
     /**
      * prix HT
      */
     #[ORM\Column(type:'integer')]
-    private ?float $price;
+    #[Assert\NotBlank]
+    #[Assert\Positive]
+    private ?int $price;
 
     /**
      * nom de l'image
@@ -87,12 +95,12 @@ class Product
         return $this;
     }
 
-    public function getPrice(): ?float
+    public function getPrice(): ?int
     {
         return $this->price;
     }
 
-    public function setPrice(?float $price): Product
+    public function setPrice(?int $price): Product
     {
         $this->price = $price;
         return $this;
