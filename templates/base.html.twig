@@ -26,6 +26,16 @@
             Menu
         </aside>
         <main class="MainContent LayoutContainer_mainContent">
+
+{#  {{ dump(app.flashes) }} #}
+
+            {% for messages in app.flashes %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endfor %}
+
+
             {% block body %}
             {% endblock %}
         </main>

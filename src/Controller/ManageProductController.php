@@ -38,6 +38,9 @@ class ManageProductController extends AbstractController
             // synchro des objets persistés dans la bdd : le produit est inséré dans la bdd
             $em->flush();
 
+            $this->addFlash('success', 'Le produit a été ajouté au catalogue.');
+
+            // on redirige l'utilisateur
             return $this->redirectToRoute('product_show_all');
 
 

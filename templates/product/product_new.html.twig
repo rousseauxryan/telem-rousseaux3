@@ -7,10 +7,9 @@ Rôle #}
 {% extends "base.html.twig" %}
 
 {% block body %}
-     {{ form(
-        form, {'attr': {novalidate:'novalidate'}}
-    )
-    }}
+     {{
+     form(form, {'attr': {novalidate:'novalidate'}})
+     }}
 
     {# {{ form_start(form, {'attr': {novalidate:'novalidate'}}) }}
         {{ form_widget(form) }}
