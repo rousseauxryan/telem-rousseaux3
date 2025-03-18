@@ -29,11 +29,18 @@
 
 {#  {{ dump(app.flashes) }} #}
 
-            {% for messages in app.flashes %}
+            {% for label,messages in app.flashes %}
                 {% for message in messages %}
-                    <p>{{ message }}</p>
+                    <p class="Message -{{ label }}">{{ message }}</p>
                 {% endfor %}
             {% endfor %}
+
+
+            {#  <p class="Message">message par défaut</p>
+            <p class="Message -notice">message informatif neutre</p>
+            <p class="Message -success">message de succes</p>
+            <p class="Message -warning">message alerte</p>
+            <p class="Message -error">message erreur</p> #}
 
 
             {% block body %}
