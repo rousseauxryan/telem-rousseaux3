@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Form\Type\ProductType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +15,7 @@ class ManageProductController extends AbstractController
 {
 
     #[Route('/manage/product/new', name: 'manage_product_new')]
-    public function new(Request $request):Response{
+    public function new(Request $request, EntityManagerInterface $em):Response{
         $product = new Product();
 
         $form = $this->createForm(
@@ -29,7 +30,16 @@ class ManageProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            echo 'Le formulaire a été validé !';
+            // maj date creation
+            $product->setCreateAt( new \DateTimeImmutable());
+
+            // persister l'objet en bdd
+            $em->persist($product);
+            // synchro des objets persistés dans la bdd : le produit est inséré dans la bdd
+            $em->flush();
+
+            return $this->redirectToRoute('product_show_all');
+
 
         }
 
