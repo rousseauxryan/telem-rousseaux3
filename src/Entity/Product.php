@@ -53,7 +53,7 @@ class Product
      * prix HT
      */
     #[ORM\Column(type:'integer')]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message:'Le prix est obligatoire.')]
     #[Assert\Positive]
     private ?int $price;
 

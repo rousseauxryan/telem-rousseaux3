@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Form\Type\ProductType;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -54,4 +55,47 @@ class ManageProductController extends AbstractController
         );
     }
 
+    #[Route('manage/product/edit/{id}', name: 'manage_product_edit')]
+    public function edit(int $id, Request $request, EntityManagerInterface $em):Response
+    {
+
+        $productRepository = $em->getRepository(Product::class)->find($id);
+        $product = $productRepository;
+
+        //je genere une erreur 404 si le produit n'existe pas
+        if (!$product) {
+            throw $this->createNotFoundException('Le produit $id n\'existe pas.');
+        }
+
+        $form = $this->createForm(
+            ProductType::class,
+            $product
+        );
+
+        $form->add('updateProduct', SubmitType::class, [
+            'label' => 'Modifier le produit',
+            'attr' => [
+                'class' => 'Button -no-danger -reverse'
+            ]
+        ]); //permet d'ajouter un champ à ceux prévus dans la classe ProductType
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // synchro des objets persistés dans la bdd : le produit est inséré dans la bdd
+            $em->flush();
+
+            $this->addFlash('success', 'Le produit a été modifié avec succès.');
+
+            // on redirige l'utilisateur
+            return $this->redirectToRoute('product_show', ['id' => $product->getId()]);
+
+        }
+
+        return $this->renderForm('product/product_new.html.twig', [
+            'form' => $form,
+        ]);
+
+    }
 }
