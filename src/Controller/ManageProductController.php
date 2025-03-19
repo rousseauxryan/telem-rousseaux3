@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function PHPUnit\Framework\throwException;
 
 class ManageProductController extends AbstractController
 {
@@ -103,11 +104,23 @@ class ManageProductController extends AbstractController
     #[Route('manage/product/delete/{id}', name: 'manage_product_delete', requirements: ['id'=>'\d+'])]
     public function delete(Product $product, Request $request, EntityManagerInterface $em):Response{
 
-        $id = $product->getId();
-        $em->remove($product);
-        $em->flush();
 
-        $this->addFlash('success', 'Le produit '.$id.' a été supprimé.');
+        //récupération du token soumis par le formulaire
+        $submittedToken = $request->request->get('token');
+
+        //comparaison de ce token avec le token qui devrait etre recu
+        if($this->isCsrfTokenValid('delete-product', $submittedToken)){
+
+            $id = $product->getId();
+            $em->remove($product);
+            $em->flush();
+
+            $this->addFlash('success', 'Le produit '.$id.' a été supprimé.');
+
+        } else {
+            $this->addFlash('error', 'Le token pour la suppression du produit est invalide.');
+            $this->redirectToRoute('manage_product_edit', ['id' => $product->getId()]);
+        }
 
         return $this->redirectToRoute('product_show_all');
 
