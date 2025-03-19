@@ -1,0 +1,16 @@
+{#
+    Demande la confirmation de suppression d'un produit
+#}
+
+{% extends "base.html.twig" %}
+
+
+{% block body %}
+    <p class="Message -warning">Vous êtes sur le point de supprimer l'article ci-dessous. Confirmer l'action si vous êtes sûr de ce que vous faites.</p>
+    <p>
+        <a class="Button -danger -reverse" href="{{ path('manage_product_delete', {'id':product.id}) }}">Confirmer la suppression</a>
+    </p>
+
+    {% include 'product/_product_card.html.twig' %}
+
+{% endblock body %}
