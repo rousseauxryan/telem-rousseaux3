@@ -34,14 +34,14 @@ class ProductController extends AbstractController
      */
 
     #[Route(path: '/product/show/{id}', name: 'product_show', requirements: ['id'=>'\d+'])]
-    public function show(int $id, ProductRepository $productRepository):Response{
+    public function show(Product $product, ProductRepository $productRepository):Response{
 
 
-        $product = $productRepository->find($id);
+        /*$product = $productRepository->find($id);
 
         if (null == $product){
             throw new NotFoundHttpException('Ce produit n\'existe pas');
-        }
+        }*/
 
 
 
